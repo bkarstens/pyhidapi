@@ -14,6 +14,7 @@ library_paths = (
     'libhidapi-iohidmanager.so',
     'libhidapi-iohidmanager.so.0',
     'libhidapi.dylib',
+    './hidapi.dll',
     'hidapi.dll',
     'libhidapi-0.dll'
 )
@@ -165,19 +166,20 @@ class Device(object):
 
         return data.raw[:size]
 
-    def send_feature_report(self, data):
+    def send_feature_report(self, data, report_id=0):
+        # Pass the id of the report to be sent.
+        data2 = bytes([report_id])+bytes(data)
+
         return self.__hidcall(hidapi.hid_send_feature_report,
-                              self.__dev, data, len(data))
+                              self.__dev, data2, len(data2))
 
-    def get_feature_report(self, report_id, size):
-        data = ctypes.create_string_buffer(size)
-
+    def get_feature_report(self, size, report_id=0):
         # Pass the id of the report to be read.
-        data[0] = bytearray((report_id,))
+        data = bytes([report_id]) + bytes(size)
 
         size = self.__hidcall(
-            hidapi.hid_get_feature_report, self.__dev, data, size)
-        return data.raw[:size]
+            hidapi.hid_get_feature_report, self.__dev, data, len(data))
+        return data[1:size]
 
     def close(self):
         if self.__dev:
