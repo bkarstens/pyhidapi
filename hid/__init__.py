@@ -168,17 +168,17 @@ class Device(object):
 
     def send_feature_report(self, data, report_id=0):
         # Pass the id of the report to be sent.
-        data2 = bytes([report_id])+bytes(data)
-
+        data2 = bytearray([report_id])+bytearray(data)
+        data3 = ctypes.c_char * len(data2)
         return self.__hidcall(hidapi.hid_send_feature_report,
-                              self.__dev, data2, len(data2))
+                              self.__dev, data3.from_buffer(data2), len(data2))
 
     def get_feature_report(self, size, report_id=0):
         # Pass the id of the report to be read.
-        data = bytes([report_id]) + bytes(size)
-
+        data = bytearray([report_id]) + bytearray(size)
+        data2 = ctypes.c_char * len(data)
         size = self.__hidcall(
-            hidapi.hid_get_feature_report, self.__dev, data, len(data))
+            hidapi.hid_get_feature_report, self.__dev, data2.from_buffer(data), len(data))
         return data[1:size]
 
     def close(self):
