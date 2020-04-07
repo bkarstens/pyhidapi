@@ -133,6 +133,9 @@ class Device(object):
     def __enter__(self):
         return self
 
+    def __del__(self):
+        self.close()
+
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.close()
 
@@ -185,6 +188,9 @@ class Device(object):
         if self.__dev:
             hidapi.hid_close(self.__dev)
             self.__dev = None
+
+    def is_opened(self):
+        return bool(self.__dev)
 
     @property
     def nonblocking(self):
