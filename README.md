@@ -55,6 +55,8 @@ Installation procedure for Windows is described [in the libusb/hidapi README](ht
 
 Binary distributions are provided by [libusb/hidapi](https://github.com/libusb/hidapi/releases)
 
+Windows install location for dlls is `C:\Windows\System32`. Copy them into this folder to install.
+
 ## OSX
 There are currently no official binary distributions for Mac, so you must build hidapi yourself.
 
