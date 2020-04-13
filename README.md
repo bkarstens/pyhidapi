@@ -1,7 +1,8 @@
 # Installing pyhidapi
-pyhidapi is available on [PyPI](https://pypi.org/project/hid/) and can be installed using pip.
+This branch of pyhidapi is not currently on PyPI, so you must download the source. From the root of this repository:
+
 ```
-pip install hid
+pip install .
 ```
 
 pyhidapi is dependant upon the [hidapi library](https://github.com/libusb/hidapi), which must be installed separately.
